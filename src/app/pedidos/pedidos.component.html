@@ -1,0 +1,53 @@
+<div class="container mt-5">
+    <h2>Lista de Pedidos</h2>
+    <button class="btn btn-primary mb-3" (click)="openAddPedidoModal()">Adicionar Pedido</button>
+    <div class="card mb-3" *ngFor="let pedido of pedidos">
+      <div class="card-body">
+        <h5 class="card-title">Pedido #{{ pedido.id }}</h5>
+        <p class="card-text">Cliente: {{ pedido.clienteNome }}</p>
+        <p class="card-text">E-mail: {{ pedido.clienteEmail }}</p>
+        <p class="card-text">Endereço: {{ pedido.clienteEndereco }}</p>
+        <p class="card-text">Data: {{ pedido.data | date:'short' }}</p>
+        <button class="btn btn-warning mr-2" (click)="openEditPedidoModal(pedido)">Editar</button>
+        <button class="btn btn-danger" (click)="openDeletePedidoModal(pedido.id)">Excluir</button>
+      </div>
+    </div>
+  
+    <!-- Modal de Adição/Edição de Pedido -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="pedidoModal" [ngClass]="{'show': editMode || pedidoForm.dirty}" style="display: block;" aria-modal="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">{{ editMode ? 'Editar Pedido' : 'Adicionar Pedido' }}</h5>
+            <button type="button" class="close" (click)="pedidoForm.reset(); editMode = false;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="pedidoForm" (ngSubmit)="addOrEditPedido()">
+              <div class="form-group">
+                <label for="clienteNome">Nome do Cliente</label>
+                <input type="text" id="clienteNome" formControlName="clienteNome" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="clienteEmail">E-mail do Cliente</label>
+                <input type="email" id="clienteEmail" formControlName="clienteEmail" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="clienteEndereco">Endereço do Cliente</label>
+                <input type="text" id="clienteEndereco" formControlName="clienteEndereco" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="produtos">Produtos</label>
+                <select multiple id="produtos" formControlName="produtos" class="form-control">
+                  <option *ngFor="let produto of produtos" [value]="produto.id">{{ produto.nome }}</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary">{{ editMode ? 'Salvar Alterações' : 'Cadastrar' }}</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

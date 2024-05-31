@@ -1,0 +1,46 @@
+<div class="container mt-5">
+    <h2>Lista de Clientes</h2>
+    <button class="btn btn-primary mb-3" (click)="openAddClienteModal()">Adicionar Cliente</button>
+    <div class="card mb-3" *ngFor="let cliente of clientes">
+      <div class="card-body">
+        <h5 class="card-title">Cliente #{{ cliente.id }}</h5>
+        <p class="card-text">Nome: {{ cliente.nome }}</p>
+        <p class="card-text">E-mail: {{ cliente.email }}</p>
+        <p class="card-text">Endereço: {{ cliente.endereco }}</p>
+        <button class="btn btn-warning mr-2" (click)="openEditClienteModal(cliente)">Editar</button>
+        <button class="btn btn-danger" (click)="openDeleteClienteModal(cliente.id)">Excluir</button>
+      </div>
+    </div>
+  
+    <!-- Modal de Adição/Edição de Cliente -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="clienteModal" [ngClass]="{'show': editMode || clienteForm.dirty}" style="display: block;" aria-modal="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">{{ editMode ? 'Editar Cliente' : 'Adicionar Cliente' }}</h5>
+            <button type="button" class="close" (click)="clienteForm.reset(); editMode = false;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="clienteForm" (ngSubmit)="addOrEditCliente()">
+              <div class="form-group">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" formControlName="nome" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" formControlName="email" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="endereco">Endereço</label>
+                <input type="text" id="endereco" formControlName="endereco" class="form-control">
+              </div>
+              <button type="submit" class="btn btn-primary">{{ editMode ? 'Salvar Alterações' : 'Cadastrar' }}</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
